@@ -30,6 +30,8 @@ graph TD
     Tab_Home --> Discovery[Discovery / Search]
     Tab_Home --> Create[Create Event]
     Tab_Home --> Community[Community Feed]
+    #Tab_Home --> Classes[Coaching Classes]
+    #Tab_Home --> Challenges[Challenges]
     Tab_Home --> ProfileNav[Profile Menu]
 
     %% Deep Links from Home
@@ -120,3 +122,60 @@ flowchart LR
     RateUsers --> EconomyReward[Reward Systems: \n Reliability Score Updated \n Wallet Tokens Added]
 ```
 
+---
+
+## 3. Deep Dive: RunBuddy & Chat UI Flow
+
+Questo diagramma esplode in dettaglio il flusso dell'utente (UI Flow) partendo dal discovery tramite Swipe fino all'organizzazione della corsa in chat, coprendo `runbuddy.tsx`, `messages.tsx` e `chat/[id].tsx`.
+
+```mermaid
+flowchart TD
+    %% RunBuddy Swipe Interface
+    RB_Start[Tab: RunBuddy] --> RB_Feed[Load Profiles & Ads Feed]
+    RB_Feed --> RB_Action{User Action}
+    
+    RB_Action -->|Swipe Left| RB_Next[Next Profile]
+    
+    RB_Action -->|Swipe Right| RB_CheckLimits{Check Limits/Auth}
+    RB_CheckLimits -->|Limit Reached| RB_ModalPremium[Show Premium Upgrade Modal]
+    RB_CheckLimits -->|Allowed| RB_SwipeApi[Handle Swipe & Check Match]
+
+    RB_SwipeApi -->|No Immediate Match| RB_Toast[Send Request \n Silent]
+    RB_SwipeApi -->|Match!| RB_ShoeAnim[Flying Shoe Animation]
+    
+    RB_ShoeAnim --> RB_MatchModal[Show 'Loc-me!' Modal]
+    RB_MatchModal -->|Start Chat| Nav_Messages[Navigate to Messages Tab]
+    RB_MatchModal -->|Keep Searching| RB_Next
+
+    %% Messages Hub
+    Nav_Messages --> Msg_Hub[Tab: Messages - Activity Hub]
+    
+    Msg_Hub --> Msg_Upcoming[View Upcoming Events]
+    Msg_Upcoming --> Nav_RunDetail[Navigate to Run Detail]
+    
+    Msg_Hub --> Msg_Pending[View Pending Match Requests]
+    Msg_Pending -->|Quick Accept| Msg_ActionAccept[Update Status -> Active]
+    Msg_Pending -->|Quick Decline| Msg_ActionDecline[Archive Chat]
+    Msg_Pending -->|Tap Item| Nav_ChatPending[Navigate to Chat \n State: Pending]
+
+    Msg_Hub --> Msg_Active[View Active Chats]
+    Msg_Active -->|Tap Item| Nav_ChatActive[Navigate to Chat \n State: Active]
+
+    %% Chat Interface
+    Nav_ChatPending --> Chat_Profile[Show Profile Overview \n with Accept/Decline]
+    Chat_Profile -->|Accept| Chat_ActiveState[Switch to Active Chat View]
+    Chat_Profile -->|Decline| Chat_Exit[Archive & Go Back]
+
+    Nav_ChatActive --> Chat_ActiveState
+    
+    Chat_ActiveState --> Chat_TextInput[Typing standard message]
+    Chat_ActiveState --> Chat_Propose[Tap Proposal Button '+']
+    
+    Chat_Propose --> Prop_Modal[Show Proposal Modal \n Time & Location]
+    Prop_Modal --> Prop_Send[Send Proposal]
+    Prop_Send --> Chat_InlineCard[Render Proposal Card in Chat]
+    
+    %% Locco Place Integration
+    Prop_Send -.-> Fetch_Locco[API: Get Locco Place Suggestion]
+    Fetch_Locco --> Locco_PlaceCard[Render Suggested Partner/Place Card]
+```

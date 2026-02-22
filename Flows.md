@@ -30,8 +30,6 @@ graph TD
     Tab_Home --> Discovery[Discovery / Search]
     Tab_Home --> Create[Create Event]
     Tab_Home --> Community[Community Feed]
-    #Tab_Home --> Classes[Coaching Classes]
-    #Tab_Home --> Challenges[Challenges]
     Tab_Home --> ProfileNav[Profile Menu]
 
     %% Deep Links from Home
@@ -179,3 +177,4 @@ flowchart TD
     Prop_Send -.-> Fetch_Locco[API: Get Locco Place Suggestion]
     Fetch_Locco --> Locco_PlaceCard[Render Suggested Partner/Place Card]
 ```
+

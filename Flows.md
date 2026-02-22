@@ -36,7 +36,6 @@ graph TD
     Discovery --> RunDetail[Run Detail \n run-detail/id]
     Community --> ClubDetail[Club Detail \n club-detail/id]
     Community --> UserDetail[User Profile \n user-detail]
-    Classes --> ClassDetail[Class Detail \n class-detail/id]
 
     %% Profile Branches
     ProfileNav --> ProfileSettings[Settings]
@@ -177,4 +176,5 @@ flowchart TD
     Prop_Send -.-> Fetch_Locco[API: Get Locco Place Suggestion]
     Fetch_Locco --> Locco_PlaceCard[Render Suggested Partner/Place Card]
 ```
+
 

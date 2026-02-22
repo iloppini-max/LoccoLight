@@ -30,8 +30,6 @@ graph TD
     Tab_Home --> Discovery[Discovery / Search]
     Tab_Home --> Create[Create Event]
     Tab_Home --> Community[Community Feed]
-    Tab_Home --> Classes[Coaching Classes]
-    Tab_Home --> Challenges[Challenges]
     Tab_Home --> ProfileNav[Profile Menu]
 
     %% Deep Links from Home
@@ -121,3 +119,4 @@ flowchart LR
     TriggerReview --> RateUsers[Rate Punctuality, Level, Friendliness]
     RateUsers --> EconomyReward[Reward Systems: \n Reliability Score Updated \n Wallet Tokens Added]
 ```
+
